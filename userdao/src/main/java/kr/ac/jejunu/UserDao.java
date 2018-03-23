@@ -9,7 +9,6 @@ public class UserDao {
         this.connectionMaker = connectionMaker;
     }
 
-
     public User get(int id) throws SQLException, ClassNotFoundException{
     
         //mysql driver load

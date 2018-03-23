@@ -11,20 +11,21 @@ import java.sql.SQLException;
 
 public class UserDaoTest {
 
-    private UserDao userDao;
+    private UserDao jejuUserDao;
     private DaoFactory daoFactory;
 //    private UserDao hallaUserDao;
 
     @Before
     public void setup(){
-        userDao = daoFactory.getUserDao();
+        daoFactory = new DaoFactory();
+        jejuUserDao = daoFactory.getUserDao();
     }
 
     @Test
     public void get() throws SQLException, ClassNotFoundException {
-        UserDao userDao = new JejuUserDao();
         int id = 1;
-        User user = userDao.get(id);
+
+        User user = jejuUserDao.get(id);
         assertThat(user.getId(), is(1));
         assertThat(user.getName(), is("허윤호"));
         assertThat(user.getPassword(), is("1234"));
@@ -35,9 +36,9 @@ public class UserDaoTest {
         User user = new User();
         user.setName("헐크");
         user.setPassword("1111");
-        Integer id = userDao.insert(user);
+        Integer id = jejuUserDao.insert(user);
 
-        User insertedUser = userDao.get(id);
+        User insertedUser = jejuUserDao.get(id);
         assertThat(insertedUser.getId(), is(id));
         assertThat(insertedUser.getName(), is(user.getName()));
         assertThat(insertedUser.getPassword(), is(user.getPassword()));
