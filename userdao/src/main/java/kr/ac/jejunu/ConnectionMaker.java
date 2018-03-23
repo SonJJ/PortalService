@@ -5,10 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public interface ConnectionMaker {
-//    public ConnectionMaker() {
-//    }//    abstract public Connection getConnection() throws ClassNotFoundException, SQLException;
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException;
+    Connection getConnection() throws ClassNotFoundException, SQLException;
 //    Connection getConnection() throws ClassNotFoundException, SQLException {
 //        Class.forName("com.mysql.jdbc.Driver");
 //        return DriverManager.getConnection(

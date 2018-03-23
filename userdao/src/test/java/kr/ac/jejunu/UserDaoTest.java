@@ -12,12 +12,12 @@ import java.sql.SQLException;
 public class UserDaoTest {
 
     private UserDao userDao;
+    private DaoFactory daoFactory;
 //    private UserDao hallaUserDao;
 
     @Before
     public void setup(){
-        userDao = new JejuUserDao();
-//        hallaUserDao = new HallaUserDao();
+        userDao = daoFactory.getUserDao();
     }
 
     @Test

@@ -2,8 +2,13 @@ package kr.ac.jejunu;
 
 import java.sql.*;
 
-abstract public class UserDao {
-    private final ConnectionMaker connectionMaker = new JejuConnectionMaker();
+public class UserDao {
+    private final ConnectionMaker connectionMaker ;
+
+    public UserDao(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
+    }
+
 
     public User get(int id) throws SQLException, ClassNotFoundException{
     
