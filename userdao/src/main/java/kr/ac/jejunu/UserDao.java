@@ -14,44 +14,93 @@ public class UserDao {
         //mysql driver load
         //sql 작성하고
         //sql 실행하고
-        //결과를 User 에 매핑하고
+        //결과를 User 에 매핑하고kk
         //자원을 해지하고
         //결과를 리턴한다.
-        Connection connection = connectionMaker.getConnection();
-        PreparedStatement preparedStatement =
-                connection.prepareStatement("SELECT * FROM userinfo WHERE id = ?");
-        preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
-        User user = new User();
-        user.setId(resultSet.getInt("id"));
-        user.setName(resultSet.getString("name"));
-        user.setPassword(resultSet.getString("password"));
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        User user;
+        try {
+            connection = connectionMaker.getConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM userinfo WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            user = new User();
+            user.setId(resultSet.getInt("id"));
+            user.setName(resultSet.getString("name"));
+            user.setPassword(resultSet.getString("password"));
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         return user;
     }
 
     public Integer insert(User user) throws SQLException, ClassNotFoundException {
-        Connection connection = connectionMaker.getConnection();
-        PreparedStatement preparedStatement =
-                connection.prepareStatement("INSERT INTO userinfo(name, password)" +
-                        "VALUES (?, ?)");
-        preparedStatement.setString(1, user.getName());
-        preparedStatement.setString(2, user.getPassword());
-        preparedStatement.executeUpdate();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Integer id;
+        try {
+            connection = connectionMaker.getConnection();
+            preparedStatement = connection.prepareStatement("INSERT INTO userinfo(name, password)" +
+                    "VALUES (?, ?)");
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.executeUpdate();
 
-        preparedStatement = connection.prepareStatement(
-                "SELECT last_insert_id()");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        resultSet.next();
+            preparedStatement = connection.prepareStatement(
+                    "SELECT last_insert_id()");
+            resultSet = preparedStatement.executeQuery();
+            resultSet.next();
 
-        Integer id = resultSet.getInt(1);
-        resultSet.close();
-        preparedStatement.close();
-        connection.close();
+            id = resultSet.getInt(1);
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
 
         return id;
     }
