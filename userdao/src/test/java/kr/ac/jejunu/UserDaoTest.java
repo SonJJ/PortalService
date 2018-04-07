@@ -15,12 +15,12 @@ import java.sql.SQLException;
 public class UserDaoTest {
 
     private UserDao userDao;
-    private DaoFactory daoFactory;
+//    private DaoFactory daoFactory;
 
     @Before
     public void setup(){
-//        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(DaoFactory.class);
-        ApplicationContext applicationContext = new GenericXmlApplicationContext("classpath:daoFactory.xml");
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(DaoFactory.class);
+//        ApplicationContext applicationContext = new GenericXmlApplicationContext("classpath:daoFactory.xml");
         userDao = applicationContext.getBean("userDao", UserDao.class);
     }
 
@@ -46,4 +46,27 @@ public class UserDaoTest {
         assertThat(insertedUser.getName(), is(user.getName()));
         assertThat(insertedUser.getPassword(), is(user.getPassword()));
     }
+
+    @Test
+    public void update() throws SQLException, ClassNotFoundException{
+        User user = new User();
+        Integer id = insertUserTest(user);
+
+        user.setId(id);
+        user.setName("헐크");
+        user.setPassword("1111");
+
+        User updateUser = userDao.get(id);
+
+        assertThat(updateUser.getId(), is(id));
+        assertThat(updateUser.getName(), is(user.getName()));
+        assertThat(updateUser.getPassword(), is(user.getPassword()));
+    }
+    private Integer insertUserTest(User user) throws SQLException, ClassNotFoundException {
+        user.setName("헐크");
+        user.setPassword("1111");
+        return userDao.insert(user);
+    }
+
+
 }
