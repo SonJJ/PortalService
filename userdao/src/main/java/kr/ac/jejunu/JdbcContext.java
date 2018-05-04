@@ -1,15 +1,13 @@
 package kr.ac.jejunu;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sql.DataSource;
+import java.sql.*;
 
 public class JdbcContext {
-    private final UserDao userDao;
+    final DataSource dataSource;
 
-    public JdbcContext(UserDao userDao) {
-        this.userDao = userDao;
+    public JdbcContext(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     User jdbcContextForGet(StatementStrategy statementStrategy) throws SQLException {
@@ -18,7 +16,7 @@ public class JdbcContext {
         ResultSet resultSet = null;
         User user = null;
         try {
-            connection = userDao.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -56,7 +54,7 @@ public class JdbcContext {
         ResultSet resultSet = null;
         Integer id;
         try {
-            connection = userDao.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
 
             preparedStatement.executeUpdate();
@@ -93,7 +91,7 @@ public class JdbcContext {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
-            connection = userDao.getDataSource().getConnection();
+            connection = dataSource.getConnection();
             preparedStatement = statementStrategy.makeStatement(connection);
 
             preparedStatement.executeUpdate();
@@ -113,5 +111,38 @@ public class JdbcContext {
                 }
 
         }
+    }
+
+    void update(String sql, Object[] params) throws SQLException {
+        StatementStrategy statementStrategy = connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setObject(i + 1, params[i]);
+            }
+            return preparedStatement;
+        };
+        jdbcContextForUpdate(statementStrategy);
+    }
+
+    Integer insert(String sql, Object[] params) throws SQLException {
+        StatementStrategy statementStrategy = connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setObject(i + 1, params[i]);
+            }
+            return preparedStatement;
+        };
+        return jdbcContextForInsert(statementStrategy);
+    }
+
+    User queryForObject(String sql, Object[] params) throws SQLException {
+        StatementStrategy statementStrategy = connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            for (int i = 0; i < params.length; i++) {
+                preparedStatement.setObject(i + 1, params[i]);
+            }
+            return preparedStatement;
+        };
+        return jdbcContextForGet(statementStrategy);
     }
 }
