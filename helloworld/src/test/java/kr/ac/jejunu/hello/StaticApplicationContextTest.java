@@ -4,6 +4,9 @@ import static org.hamcrest.CoreMatchers.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import org.junit.Test;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.RuntimeBeanNameReference;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.support.StaticApplicationContext;
 
 public class StaticApplicationContextTest {
@@ -15,5 +18,15 @@ public class StaticApplicationContextTest {
         applicationContext.registerSingleton("hello", HelloImpl.class);
         Hello hello = applicationContext.getBean("hello", Hello.class);
         assertThat(hello.sayHello(), is("Hello~!!!"));
+    }
+
+    @Test
+    public void staticApplicationContextWithDI(){
+        StaticApplicationContext applicationContext = new StaticApplicationContext();
+        applicationContext.registerSingleton("hello", HelloImpl.class);
+        BeanDefinition beanDefinition = new RootBeanDefinition( HelloPerson.class);
+        beanDefinition.getPropertyValues().addPropertyValue("name", "홍길동");
+        beanDefinition.getPropertyValues().addPropertyValue("hello", new RuntimeBeanNameReference("hello"));
+
     }
 }
