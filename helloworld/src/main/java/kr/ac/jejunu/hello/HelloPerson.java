@@ -10,6 +10,6 @@ public class HelloPerson implements Hello {
 
     @Override
     public String sayHello() {
-        return hello.sayHello() + " 홍길동";
+        return hello.sayHello() + " "+ name;
     }
 }

@@ -27,6 +27,8 @@ public class StaticApplicationContextTest {
         BeanDefinition beanDefinition = new RootBeanDefinition( HelloPerson.class);
         beanDefinition.getPropertyValues().addPropertyValue("name", "홍길동");
         beanDefinition.getPropertyValues().addPropertyValue("hello", new RuntimeBeanNameReference("hello"));
-
+        applicationContext.registerBeanDefinition("helloPerson", beanDefinition);
+        Hello hello = applicationContext.getBean("helloPerson", Hello.class);
+        assertThat(hello.sayHello(), is("Hello~!!! 홍길동"));
     }
 }
