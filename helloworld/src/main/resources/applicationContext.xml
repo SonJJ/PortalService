@@ -5,7 +5,7 @@
     <bean class="kr.ac.jejunu.hello.HelloImpl" name="hello"/>
     <bean name="helloPerson" class="kr.ac.jejunu.hello.HelloPerson">
         <property name="name" value="홍길동"/>
-        <constructor-arg name="hello" ref="hello" />
+        <property name="hello" ref="hello" />
     </bean>
 
 </beans>

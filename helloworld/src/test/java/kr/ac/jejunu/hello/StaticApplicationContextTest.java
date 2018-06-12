@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import org.junit.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.RuntimeBeanNameReference;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.support.StaticApplicationContext;
@@ -21,6 +20,7 @@ public class StaticApplicationContextTest {
         assertThat(hello.sayHello(), is("Hello!!!"));
     }
 
+    //bean정의를 다 코드로함
     @Test
     public void staticApplicationContextWithDI(){
         StaticApplicationContext applicationContext = new StaticApplicationContext();
