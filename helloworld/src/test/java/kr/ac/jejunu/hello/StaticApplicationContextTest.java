@@ -30,6 +30,7 @@ public class StaticApplicationContextTest {
         beanDefinition.getPropertyValues().addPropertyValue("hello", new RuntimeBeanReference("hello"));
         applicationContext.registerBeanDefinition("helloPerson", beanDefinition);
         Hello hello = applicationContext.getBean("helloPerson", Hello.class);
+
         assertThat(hello.sayHello(), is("Hello!!! 홍길동"));
     }
 }

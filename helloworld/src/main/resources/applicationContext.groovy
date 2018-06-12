@@ -6,6 +6,6 @@ beans {
     hello(HelloImpl) {
     }
     helloPerson(HelloPerson, name) {
-        name = '홍길동'
+        name = 'name'
     }
 }

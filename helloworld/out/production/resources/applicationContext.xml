@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean class="kr.ac.jejunu.hello.HelloImpl" name="hello"/>
     <bean name="helloPerson" class="kr.ac.jejunu.hello.HelloPerson">
-        <property name="name" value="홍길동"/>
+        <property name="name" value="name"/>
         <property name="hello" ref="hello" />
     </bean>
 
