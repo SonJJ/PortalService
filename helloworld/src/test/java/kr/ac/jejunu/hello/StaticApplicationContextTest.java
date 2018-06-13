@@ -27,6 +27,10 @@ public class StaticApplicationContextTest {
         applicationContext.registerSingleton("hello", HelloImpl.class);
         BeanDefinition beanDefinition = new RootBeanDefinition(HelloPerson.class);
         beanDefinition.getPropertyValues().addPropertyValue("name", "홍길동");
+
+        //construct injection
+        beanDefinition.getConstructorArgumentValues().addGenericArgumentValue();
+
         beanDefinition.getPropertyValues().addPropertyValue("hello", new RuntimeBeanReference("hello"));
         applicationContext.registerBeanDefinition("helloPerson", beanDefinition);
         Hello hello = applicationContext.getBean("helloPerson", Hello.class);

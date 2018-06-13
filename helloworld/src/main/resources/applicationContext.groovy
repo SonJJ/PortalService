@@ -5,8 +5,9 @@ import kr.ac.jejunu.hello.HelloPerson
 beans {
     hello(HelloImpl) {
     }
-    helloPerson(HelloPerson) {
-        hello = hello
+    
+    /construct injection/
+    helloPerson(HelloPerson, name) {
         name = 'name'
     }
 }
