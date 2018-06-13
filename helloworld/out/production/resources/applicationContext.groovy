@@ -5,7 +5,8 @@ import kr.ac.jejunu.hello.HelloPerson
 beans {
     hello(HelloImpl) {
     }
-    helloPerson(HelloPerson, name) {
+    helloPerson(HelloPerson) {
+        hello = hello
         name = 'name'
     }
 }
