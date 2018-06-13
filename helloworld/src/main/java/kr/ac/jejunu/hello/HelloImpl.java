@@ -1,4 +1,5 @@
 package kr.ac.jejunu.hello;
+
 import org.springframework.stereotype.Component;
 
 @Component
